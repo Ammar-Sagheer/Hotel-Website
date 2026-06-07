@@ -24,14 +24,14 @@ export default function Page() {
           </p>
           <p>
             Our 8 luxury cabins provide a cozy base, but the real freedom and
-            peace you'll find in the surrounding mountains. Wander through lush
-            forests, breathe in the fresh air, and watch the stars twinkle above
-            from the warmth of a campfire or your hot tub.
+            peace you&apos;ll find in the surrounding mountains. Wander through
+            lush forests, breathe in the fresh air, and watch the stars twinkle
+            above from the warmth of a campfire or your hot tub.
           </p>
           <p>
-            This is where memorable moments are made, surrounded by nature's
-            splendor. It's a place to slow down, relax, and feel the joy of
-            being together in a beautiful setting.
+            This is where memorable moments are made, surrounded by
+            nature&apos;s splendor. It&apos;s a place to slow down, relax, and
+            feel the joy of being together in a beautiful setting.
           </p>
         </div>
       </div>
