@@ -2,9 +2,17 @@ import { Suspense } from "react";
 import CabinList from "../_components/CabinList";
 import Spinner from "../_components/Spinner";
 
+// revalidate after 1 hour
+export const revalidate = 3600;
+
+// revalidate after 15 seco
+// export const revalidate = 15;
+
 export const metadata = {
   title: "Cabins",
 };
+
+// export const experimental_ppr = true;
 
 export default function Page() {
   // CHANGE

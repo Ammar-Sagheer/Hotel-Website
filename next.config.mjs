@@ -10,7 +10,10 @@ const nextConfig = {
       },
     ],
   },
-  output: "export", //to export the website as static files, so it can be hosted on any static hosting service like Netlify, Vercel, GitHub Pages, etc. (Static Site Generation)
+  // experimental: {
+  //   ppr: true,
+  // },
+  // output: "export", //to export the website as static files, so it can be hosted on any static hosting service like Netlify, Vercel, GitHub Pages, etc. (Static Site Generation)
 };
 
 export default nextConfig;
