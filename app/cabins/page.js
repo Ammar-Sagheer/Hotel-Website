@@ -1,8 +1,10 @@
 import { Suspense } from "react";
 import CabinList from "../_components/CabinList";
 import Spinner from "../_components/Spinner";
+import Filter from "../_components/Filter";
 
 // revalidate after 1 hour
+//This is no longer valid as now filter is not knwon at runtime, so page is dynamically rendered, and revalidate only works for statically generated pages
 export const revalidate = 3600;
 
 // revalidate after 15 seco
@@ -14,9 +16,11 @@ export const metadata = {
 
 // export const experimental_ppr = true;
 
-export default function Page() {
+export default function Page({ searchParams }) {
   // CHANGE
   // const cabins = [];
+
+  const filter = searchParams?.capacity ?? "all";
 
   return (
     <div>
@@ -31,8 +35,11 @@ export default function Page() {
         home away from home. The perfect spot for a peaceful, calm vacation.
         Welcome to paradise.
       </p>
-      <Suspense fallback={<Spinner />}>
-        <CabinList />
+      <div className=" flex justify-end mb-8">
+        <Filter />
+      </div>
+      <Suspense fallback={<Spinner />} key={filter}>
+        <CabinList filter={filter} />
       </Suspense>
     </div>
   );

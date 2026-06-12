@@ -45,7 +45,7 @@ export const getCabins = async function () {
     .order("name");
 
   // For testing (to slow down data fethcing)
-  await new Promise((res) => setTimeout(res, 2000));
+  // await new Promise((res) => setTimeout(res, 2000));
 
   if (error) {
     console.error(error);
@@ -111,6 +111,8 @@ export async function getBookedDatesByCabinId(cabinId) {
     .select("*")
     .eq("cabinId", cabinId)
     .or(`startDate.gte.${today},status.eq.checked-in`);
+
+  // await new Promise((res) => setTimeout(res, 5000));
 
   if (error) {
     console.error(error);
