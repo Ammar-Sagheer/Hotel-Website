@@ -2,6 +2,7 @@ import { Suspense } from "react";
 import CabinList from "../_components/CabinList";
 import Spinner from "../_components/Spinner";
 import Filter from "../_components/Filter";
+import ReservationReminder from "../_components/ReservationReminder";
 
 // revalidate after 1 hour
 //This is no longer valid as now filter is not knwon at runtime, so page is dynamically rendered, and revalidate only works for statically generated pages
@@ -40,6 +41,7 @@ export default function Page({ searchParams }) {
       </div>
       <Suspense fallback={<Spinner />} key={filter}>
         <CabinList filter={filter} />
+        <ReservationReminder />
       </Suspense>
     </div>
   );
