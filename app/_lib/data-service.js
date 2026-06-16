@@ -145,15 +145,62 @@ export async function getSettings() {
 
 export async function getCountries() {
   try {
-    const res = await fetch(
-      "https://restcountries.com/v2/all?fields=name,flag",
-    );
-    const countries = await res.json();
-    return countries;
-  } catch {
+    let allCountries = [];
+    let offset = 0;
+    const limit = 100;
+
+    while (true) {
+      const res = await fetch(
+        `https://api.restcountries.com/countries/v5?limit=${limit}&offset=${offset}`,
+        {
+          headers: {
+            Authorization: "Bearer rc_live_063c31ebc5db43c7bf97b4220a785135",
+          },
+          next: { revalidate: 86400 },
+        },
+      );
+
+      const json = await res.json();
+      const countries = json.data.objects;
+      allCountries = [...allCountries, ...countries];
+
+      // Stop if there are no more pages
+      if (!json.data.meta.more) break;
+
+      offset += limit;
+    }
+
+    return allCountries
+      .map((c) => ({
+        name: c.names.common,
+        flag: c.flag.emoji,
+      }))
+      .sort((a, b) => a.name.localeCompare(b.name));
+  } catch (e) {
+    console.error(e);
     throw new Error("Could not fetch countries");
   }
 }
+
+//Below is the free API to get all the countries, in case the above one which is paid does not work
+// export async function getCountries() {
+//   try {
+//     const res = await fetch(
+//       "https://raw.githubusercontent.com/mledoze/countries/master/countries.json",
+//       { next: { revalidate: 86400 } },
+//     );
+//     const data = await res.json();
+
+//     return data
+//       .map((c) => ({
+//         name: c.name.common,
+//         flag: c.flag, // emoji flag e.g. 🇵🇰
+//       }))
+//       .sort((a, b) => a.name.localeCompare(b.name));
+//   } catch {
+//     throw new Error("Could not fetch countries");
+//   }
+// }
 
 /////////////
 // CREATE
@@ -189,6 +236,8 @@ export async function createBooking(newBooking) {
 // UPDATE
 
 // The updatedFields is an object which should ONLY contain the updated data
+
+/*
 export async function updateGuest(id, updatedFields) {
   const { data, error } = await supabase
     .from("guests")
@@ -231,3 +280,5 @@ export async function deleteBooking(id) {
   }
   return data;
 }
+  
+*/
