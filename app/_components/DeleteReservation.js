@@ -1,11 +1,11 @@
 "use client";
 
 import { TrashIcon } from "@heroicons/react/24/solid";
-import { deleteReservation } from "../_lib/actions";
+
 import { useTransition } from "react";
 import SpinnerMini from "./SpinnerMini";
 
-function DeleteReservation({ bookingId }) {
+function DeleteReservation({ bookingId, onDelete }) {
   //We can also define a server aciton here in form of a function using use server directive, as we cannot be sure whether the above component is server of clint component, the example below shows how it can be used, but in actual practice we want to define all server actions at one cental place.
 
   // function deleteReservation () {
@@ -17,7 +17,7 @@ function DeleteReservation({ bookingId }) {
 
   function handleDelete() {
     if (confirm("Are you sure you want to delete this reservation?"))
-      startTransition(() => deleteReservation(bookingId));
+      startTransition(() => onDelete(bookingId));
   }
 
   return (
