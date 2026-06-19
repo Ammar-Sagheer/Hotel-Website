@@ -25,6 +25,34 @@ export async function updateGuest(formData) {
   revalidatePath("/account/profile");
 }
 
+export async function createBooking(bookingData, formData) {
+  const session = await auth();
+  if (!session) throw new Error("You must be logged in");
+
+  //An alternate way to convert all formData in form of an object instead of doing .get("name") is using Object.entries(formData.entries())
+
+  const newBooking = {
+    ...bookingData,
+    guestId: session.user.guestId,
+    numGuests: Number(formData.get("numGuests")),
+    observations: formData.get("observations").slice(0, 1000),
+    extrasPrice: 0,
+    totalPrice: bookingData.cabinPrice,
+    isPaid: false,
+    hasBreakfast: false,
+    status: "unconfirmed",
+  };
+  // console.log(newBooking);
+
+  const { error } = await supabase.from("bookings").insert([newBooking]);
+
+  if (error) throw new Error("Booking could not be created");
+
+  revalidatePath(`/cabins/${bookingData.cabinId}`);
+
+  redirect("/cabins/thankyou");
+}
+
 export async function deleteReservation(bookingId) {
   // await new Promise((res) => setTimeout(res, 3000));
   // throw new Error("yolo");
@@ -45,7 +73,7 @@ export async function deleteReservation(bookingId) {
   revalidatePath("/account/reservations");
 }
 
-export async function updateReservation(formData) {
+export async function updateBooking(formData) {
   const bookingId = Number(formData.get("bookingId"));
 
   // 1) Authenticate the user and get their session (Authentication)
